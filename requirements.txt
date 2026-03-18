@@ -1,6 +1,10 @@
 fastapi
 uvicorn
+streamlit
+requests
 pandas
 numpy
 scikit-learn
 joblib
+os
+pickle

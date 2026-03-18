@@ -2,17 +2,39 @@ from fastapi import FastAPI
 import joblib
 import numpy as np
 import pandas as pd
+import os
+import pickle
 
 app = FastAPI()
 
-# Load artifacts
-woe_table = pd.read_csv("woe_bins.csv")
-model = joblib.load("credit_logreg_model.pkl")
-Factor = joblib.load("score_factor.pkl")
-Offset = joblib.load("score_offset.pkl")
-features = joblib.load("model_features.pkl")
+# Base directory (VERY IMPORTANT for Render)
+BASE_DIR = os.path.dirname(__file__)
 
-scorecard = pd.read_csv("credit_scorecard.csv")
+# File paths
+woe_path = os.path.join(BASE_DIR, "woe_bins.csv")
+model_path = os.path.join(BASE_DIR, "credit_logreg_model.pkl")
+factor_path = os.path.join(BASE_DIR, "score_factor.pkl")
+offset_path = os.path.join(BASE_DIR, "score_offset.pkl")
+features_path = os.path.join(BASE_DIR, "model_features.pkl")
+scorecard_path = os.path.join(BASE_DIR, "credit_scorecard.csv")
+
+# Load all artifacts
+woe_table = pd.read_csv(woe_path)
+
+model = joblib.load(model_path)
+Factor = joblib.load(factor_path)
+Offset = joblib.load(offset_path)
+features = joblib.load(features_path)
+
+scorecard = pd.read_csv(scorecard_path)
+
+# woe_table = pd.read_csv("woe_bins.csv")
+# model = joblib.load("credit_logreg_model.pkl")
+# Factor = joblib.load("score_factor.pkl")
+# Offset = joblib.load("score_offset.pkl")
+# features = joblib.load("model_features.pkl")
+
+# scorecard = pd.read_csv("credit_scorecard.csv")
 
 base_score = scorecard[scorecard["VAR_NAME"]=="Base_Score"]["Points"].values[0]
 
