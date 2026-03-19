@@ -74,6 +74,8 @@ def apply_woe(df):
             # ensure numeric type
             temp.loc[:, "MIN_VALUE"] = pd.to_numeric(temp["MIN_VALUE"])
             temp.loc[:, "MAX_VALUE"] = pd.to_numeric(temp["MAX_VALUE"])
+            if var not in df.columns:
+                df[var] = 0
 
             def map_bin(x):
                 for _, row in temp.iterrows():
@@ -87,6 +89,8 @@ def apply_woe(df):
         # CATEGORICAL VARIABLES
         # ------------------------
         else:
+            if var not in df.columns:
+                df[var] = "Unknown"
 
             mapping = dict(zip(temp["MIN_VALUE"], temp["WOE"]))
 
